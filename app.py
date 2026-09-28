@@ -42,6 +42,39 @@ def index():
 
 
 ## === ЗДЕСЬ БУДУТ ИЗМЕНЕНИЯ ДАЛЬШЕ ===
+@app.rout('/register')
+def registr():
+    if request.method == 'POST':
+        login = request.form.get('login', '').strip()
+        password = request.form.get('password', '').strip()
+        fio = request.form.get('fio', '').strip()
+        birth_date = request.form.get('birth_date', '').strip()
+        phone = request.form.get('phone', '').strip()
+        email = request.form.get('email', '').strip()
+
+        if not re.match(r'^[a-zA-Z0-9]{6,}$', login):
+            flash('Логин долен содержать только латинские буквы и цифры, минимум 6 символов', 'danger')
+            return redirect(url_for('register'))
+
+        if len(password) < 8:
+            flash('Пароль должен быть не менее 8 символов', 'danger')
+            return redirect(url_for('register'))
+
+        if User.query.filter_by(login=login).first():
+            flash('Пользователь с таким логином уже существует', 'danger')
+            return redirect(url_for('register'))
+
+        new_user = User(
+            login=login,
+            password_hash=generate_password_hash(password),
+            fio=fio,
+            birth_date=datetime.strptime(birth_date, '%Y-%m-%d').date(),
+            phone=phone,
+            email=email,
+            role='user'
+        )
+
+##=== Вот здесь я остановился, потом продолжи здесь!!!!!!! ===
 
 
 if __name__ == '__main__':
