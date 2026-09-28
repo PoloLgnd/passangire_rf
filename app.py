@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User, Application, Review
 from datetime import datetime
+import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'super_secret_key_2026'
@@ -42,7 +43,7 @@ def index():
 
 
 ## === ЗДЕСЬ БУДУТ ИЗМЕНЕНИЯ ДАЛЬШЕ ===
-@app.rout('/register')
+@app.route('/register')
 def registr():
     if request.method == 'POST':
         login = request.form.get('login', '').strip()
@@ -73,6 +74,16 @@ def registr():
             email=email,
             role='user'
         )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('Регистрация успешна! Теперь вы можете войти.', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+## === Дальше пиши роут с login ===
 
 ##=== Вот здесь я остановился, потом продолжи здесь!!!!!!! ===
 
