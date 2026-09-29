@@ -85,6 +85,32 @@ def registr():
 
 ## === Дальше пиши роут с login ===
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('profile'))
+
+    if request.method == 'POST':
+        login_val = request.form.get('login', '').strip()
+        password = request.form.get('password', '')
+
+        user = User.query.filter_by(login=login_val).first()
+
+        if user and check_password_hash(user.password_hash, password):
+            login_user(user)
+
+            next_page = request.args.get('next')
+            if next_page:
+                return redirect(next_page)
+
+            if user.role == 'admin':
+                return redirect(url_for('admin'))
+            return redirect(url_for('profile'))
+        else:
+            flash('Неверный логин или пароль', 'danger')
+
+    return render_template('login.html')
+
 ##=== Вот здесь я остановился, потом продолжи здесь!!!!!!! ===
 
 
