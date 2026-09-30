@@ -117,6 +117,13 @@ def logout():
     flash('Вы успешно вышли из системы', 'info')
     return redirect(url_for('index'))
 
+@app.route('/profile')
+@login_required
+def profile():
+    user_applications = Application.query.filter_by(user_id=current_user.id).order_by(Application.created_at.desc()).all()
+
+    return render_template('profile.html', applications=user_applications)
+
 ##=== Вот здесь я остановился, потом продолжи здесь!!!!!!! ===
 
 
