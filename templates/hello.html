@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренеровка с шаблонитизатором</title>
+</head>
+<body>
+    <h1>Привет, {{ name }}!</h1>
+
+    <!-- <p>Тебе {{ age }} лет</p> -->
+
+    {% if age < 18 %}
+        <p>Ты еще не совершенолетний</p>
+    {% elif age < 60 %}
+        <p>Ты взрослый человек</p>
+    {% else %}
+        <p>Ты пенсионер</p>
+    {% endif %}
+    <p></p>
+</body>
+</html>
