@@ -38,12 +38,27 @@ with app.app_context():
         db.session.add(admin)
         db.session.commit()
 
+
+### Здесь я начал писать код для щаблонитизатора
+
+# @app.route('/')
+# def index():
+#     return render_template('home.html')
+
+# @app.route('/hello')
+# def index():
+#     return render_template('hello.html', name='Маша', age=5)
+
+# @app.route('/shopping')
+# def shopping():
+#     items = ['Яблоко','Хлеб','Яйца','Молоко']
+#     return render_template('shopping.html', items=items)
+
+### Здесь я закончил писать код для щаблонитизатора
 @app.route('/')
 def index():
     return render_template('index.html')
 
-
-## === ЗДЕСЬ БУДУТ ИЗМЕНЕНИЯ ДАЛЬШЕ ===
 @app.route('/register')
 def registr():
     if request.method == 'POST':
@@ -124,8 +139,6 @@ def profile():
     user_applications = Application.query.filter_by(user_id=current_user.id).order_by(Application.created_at.desc()).all()
 
     return render_template('profile.html', applications=user_applications)
-
-##=== Вот здесь я остановился, потом продолжи здесь!!!!!!! ===
 
 
 if __name__ == '__main__':

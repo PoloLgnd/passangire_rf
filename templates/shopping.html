@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Покупки</title>
+</head>
+<body>
+    
+    <h1>Список покупок</h1>
+
+    <ul>
+        {% for item in items %}
+            {% if item.startswith('М') %}
+                <li>{{ item }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
