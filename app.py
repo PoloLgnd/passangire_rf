@@ -59,6 +59,10 @@ with app.app_context():
 def index():
     return render_template('index.html')
 
+@app.route('/prof')
+def proffff():
+    return render_template('profile.html')
+
 @app.route('/register')
 def registr():
     if request.method == 'POST':

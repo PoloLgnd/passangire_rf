@@ -1,9 +1,13 @@
-{% extends 'baze.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
     <h2>Привет, {{ current_user.fio }}!</h2>
+
+    {% if current_user.role == 'admin' %}
+        <button>ТЫ АДМИН!!!</button>
+    {% endif %}
 
     {% if applications %}
         <h3>Ваши заявки:</h3>
@@ -11,6 +15,8 @@
             <div class="card">
                 <h4>{{ app.transport_type }}</h4>
                 <p>Дата: {{ app.start_date.strftime('%d.%m.%Y') }}</p>
+                <p>Статус: {{ app.start_date.strftime('%d.%m.%Y') }}</p>
+                <p>Оплата: {{ app.payment_method }}</p>
 
                 {% if app.status == 'Обучение завершено' %}
                     <button>Оставить отзыв</button>
