@@ -1,0 +1,23 @@
+{% extends 'baze.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+    <h2>Привет, {{ current_user.fio }}!</h2>
+
+    {% if applications %}
+        <h3>Ваши заявки:</h3>
+        {% for app in applications %}
+            <div class="card">
+                <h4>{{ app.transport_type }}</h4>
+                <p>Дата: {{ app.start_date.strftime('%d.%m.%Y') }}</p>
+
+                {% if app.status == 'Обучение завершено' %}
+                    <button>Оставить отзыв</button>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>У нас пока нет заявок.</p>
+    {% endif %}
+{% endblock %}
