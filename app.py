@@ -44,6 +44,11 @@ with app.app_context():
 def index():
     return render_template('hello.html', name='Маша', age=5)
 
+@app.route('/shopping')
+def shopping():
+    items = ['Яблоко','Хлеб','Яйца','Молоко']
+    return render_template('shopping.html', items=items)
+
 ### Здесь я закончил писать код для щаблонитизатора
 # @app.route('/')
 # def index():
