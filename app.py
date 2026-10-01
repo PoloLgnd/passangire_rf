@@ -10,6 +10,7 @@ app.config['SECRET_KEY'] = 'super_secret_key_2026'
 ## если PostgreSQL настроен то пиши --->  app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://exam:exam123@localhost:5432/passazhiram'     в ковычках мы пишем postgresql://пользователь:пароль@хост:порт/имя_бд
 ## если PostgreSQL не настроен, то пиши --->  app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlire:///app.db'
 
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
