@@ -11,7 +11,7 @@
 
     {% if applications %}
         <h3>Ваши заявки:</h3>
-        {% for app in applications %}
+        {% for app in application %}
             <div class="card">
                 <h4>{{ app.transport_type }}</h4>
                 <p>Дата: {{ app.start_date.strftime('%d.%m.%Y') }}</p>
