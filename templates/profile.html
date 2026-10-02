@@ -58,11 +58,16 @@
                 {% endfor %}
             {% else %}
             {# пиши дальше тут --> #}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i>У вас пока нет заявок.
+                    <a href="{{ url_for('application') }}" class="alert-link">Создать первую заявку</a>
+                </div>
             {% endif %}
         </div>
     </div>
 
     {% if applications %}
+        <h3>Другая штука</h3>
         <h3>Ваши заявки:</h3>
         {% for app in application %}
             <div class="card">
