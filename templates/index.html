@@ -1,11 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div>asdhfgasidufoaiudsgfoiauh</div>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Главная страница - Пассажирам.РФ{% endblock %}}
+
+{% block content %}
+<div class="text-center py5">
+    <h1 class="display-4 mb4">
+        <i class="bi bi-bus-front">Пассажирам.РФ</i>
+    </h1>
+    <p class="lead mb-4">
+        Платформа для обучения водителей общественного транспорта
+    </p>
+
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('profile') }}" class="btn btn-primary btn-lg me-2">
+            <i class="bi bi-person-circle">Личный кабинет</i>
+        </a>
+
+        <a href="{{ url_for('logout') }}" class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-box-arrow-right">Выйти</i>
+        </a>
+    {% else %}
+        <a href="{{ url_for('register') }}" class="btn btn-succes btn-lg me2">
+            <i class="bi bi-person-plus">Регистрация</i>
+        </a>
+
+        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">Войти</a>
+    {% endif %}
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-ev-front display-4 text-success"></i>
+                <h5 class="card_title mt-3">Автобусы</h5>
+                <p class="card-text">Обучение водителей аавтобусов</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-ev-front display-4 text-success"></i>
+                <h5 class="card_title mt-3">Электробусы</h5>
+                <p class="card-text">Обучение водителей электробусов</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-ev-front display-4 text-success"></i>
+                <h5 class="card_title mt-3">Трамваи</h5>
+                <p class="card-text">Обучение водителей трамваев</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

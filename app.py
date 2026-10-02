@@ -64,7 +64,7 @@ def proffff():
     return render_template('profile.html')
 
 @app.route('/register')
-def registr():
+def register():
     if request.method == 'POST':
         login = request.form.get('login', '').strip()
         password = request.form.get('password', '').strip()
