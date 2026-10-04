@@ -36,17 +36,18 @@
     </header>
 
 
-{% with messeges = get_flashed_messages(with_categories=true) %}
-    {% if messeges %}
-        <div class="container">
-            {% for category, messege in messeges %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                {# Продолжи здесь #}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
+    {% with messeges = get_flashed_messages(with_categories=true) %}
+        {% if messeges %}
+            <div class="container">
+                {% for category, messege in messeges %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                        {{ messege }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
 
 
     <main>
