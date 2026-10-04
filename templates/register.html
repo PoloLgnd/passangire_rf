@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация - Пассажирам.РФ{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col_lg-5">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">
+                    <i class="bi bi-person-plus text-primary"></i>Регистрация
+                </h2>
+
+                <form meyhod="POST" action="{{ url_for('register') }}">
+                    {# Логин #}
+                    <div class="mb-3">
+                        <label for="login" class="form-label">
+                            <i class="bi bi-person"></i>Логин
+                        </label>
+                        <input type="text" 
+                        class="form-control" 
+                        id="login" 
+                        name="login" 
+                        pattern="^[a-zA-Z0-9]{6,}$" 
+                        title="Только латинские буквы и цифры, минмум 6 символов" 
+                        placeholder="Например: ivan1234"
+                        required>
+                        <div class="form-text">Латинские буквы и цифры, минмум 6 символов.</div>
+                    </div>
+
+                    {# Пароли #}
+                    <div class="mb-3">
+                        <label for="password" class="form-label">
+                            <i class="bi bi-person"></i>Пароль
+                        </label>
+                        <input type="password" 
+                        class="form-control" 
+                        id="password" 
+                        name="password" 
+                        minlength="8" 
+                        placeholder="Минимум 8 символов" 
+                        required>
+                        <div class="form-text">Минимум 8 символов</div>
+                    </div>
+
+                    {# ФИО #}
+                    <div class="mb-3">
+                        <label for="fio" class="form-label">
+                            <i class="bi bi-person"></i>ФИО
+                        </label>
+                        <input type="fio" 
+                            class="form-control" 
+                            id="fio" 
+                            name="fio"  
+                            placeholder="Иван Иванов Иванович" 
+                            required>
+                    </div>
+
+                    {# Дата рождения #}
+                    <div class="mb-3">
+                        <label for="birth_date" class="form-label">
+                            <i class="bi bi-person"></i>Дата рождения
+                        </label>
+                        <input type="birth_date" 
+                            class="form-control" 
+                            id="birth_date" 
+                            name="birth_date"  
+                            required>
+                    </div>
+
+                    {# Телефон #}
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">
+                            <i class="bi bi-person"></i>Телефон
+                        </label>
+                        <input type="tel" 
+                            class="form-control" 
+                            id="phone" 
+                            name="phone"  
+                            placeholder="+79991234567" 
+                            required>
+                    </div>
+
+                    {# Email #}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="bi bi-person"></i>Email
+                        </label>
+                        <input type="email" 
+                            class="form-control" 
+                            id="email" 
+                            name="email"  
+                            placeholder="example@email.com" 
+                            required>
+                    </div>
+
+                    {# Конпка #}
+
+                    <button class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-check-circle"></i>Зарегистрироваться
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <p class="mb-0">Уже есть аккаунт?
+                        <a href="{{ url_for('login') }}">Войти</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

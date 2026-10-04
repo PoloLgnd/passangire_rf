@@ -6,6 +6,7 @@
     <title>{% block title %}Пассажирам.РФ{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
@@ -56,8 +57,10 @@
         {% endblock %}
     </main>
     
-    <footer class="bg-light trxt-center text-muted py-3 mt-5">
+    <footer class="bg-light trxt-center text-muted text-center py-3 mt-5">
         <p class="mb-0">2027 Мой сайт</p>
     </footer>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
