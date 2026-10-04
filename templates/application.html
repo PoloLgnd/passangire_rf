@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">
+                    <i class="bi bi-file-earmark-plus text-success"></i>Подача заявок
+                </h2>
+
+                <form method="POST" action="{{ url_for('application') }}">
+                    {# Тип транспорта #}
+
+                    <div class="mb-3">
+                        <label for="transport_type" class="form-label">
+                            <i class="bi bi-bus-front"></i>Тип транспорта
+                        </label>
+                        <select name="transport_type" id="transport_type" class="form-select" required>
+                            <option value="" disabled selected>Выберите транспорт...</option>
+                            <option value="Автобус">Автобус</option>
+                            <option value="Электробус">Электробус</option>
+                            <option value="Трамвай">Трамвай</option>
+                        </select>
+                    </div>
+
+                    {# Дата начала обучения #}
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">
+                            <i class="bi bi-calendar-event"></i>Желаемая дата начала
+                        </label>
+
+                        <input type="date" 
+                            class="form-control" 
+                            id="start_date" 
+                            name="start_date" 
+                            placeholder="ДД.ММ.ГГГГ" 
+                            pattern="\d{2}\.\d{2}\.\d{4}" 
+                            title="Формат даты: ДД.ММ.ГГГГ" 
+                            required>
+                        <div class="form-text">Обязательно в формате ДД.ММ.ГГГГ</div>
+                    </div>
+
+                    {# Способ оплаты #}
+                    <div class="mb-3">
+                        <label for="transport_type" class="form-label">
+                            <i class="bi bi-credit-card"></i>Способ оплаты
+                        </label>
+                        <select name="payment_method" id="payment_method" class="form-select" required>
+                            <option value="" disabled selected>Выберите способ...</option>
+                            <option value="Наличными">Наличными</option>
+                            <option value="Банковская карта">Банковская карта</option>
+                            <option value="Рассрочка">Рассрочка</option>
+                        </select>
+                    </div>
+
+                    {# Кнопка #}
+                    <button class="btn btn-success w-100 mt-3">
+                        <i class="bi bi-send"></i>Отправить заявку
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

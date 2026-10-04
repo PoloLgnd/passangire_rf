@@ -11,7 +11,7 @@
                     <i class="bi bi-person-plus text-primary"></i>Регистрация
                 </h2>
 
-                <form meyhod="POST" action="{{ url_for('register') }}">
+                <form method="POST" action="{{ url_for('register') }}">
                     {# Логин #}
                     <div class="mb-3">
                         <label for="login" class="form-label">
@@ -64,7 +64,8 @@
                         <input type="birth_date" 
                             class="form-control" 
                             id="birth_date" 
-                            name="birth_date"  
+                            name="birth_date" 
+                            placeholder="ДД.ММ.ГГГГ" 
                             required>
                     </div>
 

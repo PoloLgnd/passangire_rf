@@ -3,8 +3,9 @@
 {% block title %}Личный кабинет{% endblock %}
 
 {% block content %}
-    <h2 class="mb-4"><i class="bi bi-oerson-circle">Личный кабинет</i></h2>
-    <h2>Привет, {{ current_user.fio }}!</h2>
+    <h2 class="mb-4 text-center">
+        <i class="bi bi-person-circle"></i><b>Личный кабинет</b>
+    </h2>
 
     <div class="row">
         <div class="col-md-4 mb-4">
@@ -16,7 +17,7 @@
                     <p><i class="bi bi-telephone"></i>{{ current_user.phone }}</p>
                     <p><i class="bi bi-calendar"></i>{{ current_user.birth_date.strftime('%d.%m.%Y') }}</p>
                     <hr>
-                    <a href="{{ url-for('application') }}" class="btn btn-success w-100">
+                    <a href="{{ url_for('application') }}" class="btn btn-success w-100">
                         <i class="bi bi-plus-circle"></i> Новая заявка
                     </a>
                 </div>
@@ -67,7 +68,7 @@
     </div>
 
     {% if applications %}
-        <h3>Другая штука</h3>
+        <h3 class="text-center">Другая штука</h3>
         <h3>Ваши заявки:</h3>
         {% for app in application %}
             <div class="card">

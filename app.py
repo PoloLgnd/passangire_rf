@@ -63,7 +63,7 @@ def index():
 def proffff():
     return render_template('profile.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         login = request.form.get('login', '').strip()
@@ -89,7 +89,7 @@ def register():
             login=login,
             password_hash=generate_password_hash(password),
             fio=fio,
-            birth_date=datetime.strptime(birth_date, '%Y-%m-%d').date(),
+            birth_date=datetime.strptime(birth_date, '%d.%m.%Y').date(),
             phone=phone,
             email=email,
             role='user'
@@ -144,7 +144,52 @@ def profile():
 
     return render_template('profile.html', applications=user_applications)
 
-# Здесь писать дальше логику applications
+@app.route('/application', methods=['GET', 'POST'])
+@login_required
+def application():
+    if request.method == 'POST':
+        # Порлучаем данные из формы
+        transport_type = request.form.get('transport_type')
+        start_date_str = request.form.get('start_date')
+        payment_method = request.form.get('payment_method')
+
+        # Проверка (все ли поля заполнены)
+        if not transport_type or not start_date_str or not payment_method:
+            flash('Пожалуйста, заполните все поля', 'danger')
+            return redirect(url_for('application'))
+
+        # Преобразует строку даты в объект Date (Требование задания: ДД.ММ.ГГГГ)
+        try:
+            # Пытаемся превратить "29.09.2026" в дату
+            # Если у нас в форме type="text"
+            # state_date = datetime.strptime(start_date_str, '%d.$m.$Y').date()
+
+            # Если у нас в форме type="date"
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+                        
+        except ValueError:
+            # Если формат не верный к примеру 29/09/2026
+            flash('Не верный формат даты! Используйте ДД.ММ.ГГГГ', 'danger')
+            return redirect(url_for('application'))
+
+        # Создаём новую заявку
+        new_application = Application(
+            user_id=current_user.id,
+            transport_type=transport_type,
+            start_date=start_date,
+            payment_method=payment_method,
+            status='Новая' #по умолчанию
+        )
+
+        # Сохраняем в базу данных
+        db.session.add(new_application)
+        db.session.commit()
+
+        flash('Заявка успешно создана! Ожидайте подтверждения.', 'success')
+        return redirect(url_for('profile'))
+
+    # Если метод GET - просто показываем форму
+    return render_template('application.html')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
