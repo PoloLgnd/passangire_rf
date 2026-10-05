@@ -235,9 +235,9 @@ def add_review(app_id):
     # Находим заявку по ID
     application = Application.query.get_or_404(app_id)
 
-    # Отладка кода
-    print(f"===ПРОВЕРКА ОТЗЫВА: app_id={app_id}, status='{application.status}' ===")
-    flash(f"Отладка: статус заявки = '{application.status}'", 'info')
+    # # Отладка кода
+    # print(f"===ПРОВЕРКА ОТЗЫВА: app_id={app_id}, status='{application.status}' ===")
+    # flash(f"Отладка: статус заявки = '{application.status}'", 'info')
 
     # Провека безопасности: Эта заявка текущего пользователя?
     if application.user_id != current_user.id:
