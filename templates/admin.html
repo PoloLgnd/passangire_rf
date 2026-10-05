@@ -34,17 +34,35 @@
                                 <td>{{ app.start_date.strftime('%d.%m.%Y') }}</td>
                                 <td>{{ app.payment_method }}</td>
                                 <td>
-                                    <span class="badge">
-                                    {# Продолжи здесь #}
+                                    <span class="badge 
+                                    {% if app.status == 'Новая' %}bg-warning text-dark
+                                    {% elif app.status == 'Идёт обучение'%}bg-info text-dark
+                                    {% elif app.status == 'Обучение завершено' %}bg-success
+                                    {% else %}bg-secondary{% endif %}">{{ app.status }}
                                     </span>
+                                </td>
+
+                                <td>
+                                    {# Форма для смены статуса #}
+                                    <form method="POST" action="{{ url_for('update_status', app_id=app.id) }}" class="d-flex gap-2">
+                                        <select name="status" class="form-select form-select-sm" style="width: auto;">
+                                            <option value="Новая" {% if app.status == 'Новая'%}selected{% endif %}>Новая</option>
+                                            <option value="Идет обучение" {% if app.status == 'Идет обучение' %}selected{% endif %}>Идёт обучение</option>
+                                            <option value="Обучение завершено" {% if app.status == 'Обучение завершено' %}selected{% endif %}>Завершено</option>
+                                        </select>
+
+                                        <button class="btn btn-sm btn-primary">
+                                            <i class="bi bi-check-lg"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-        
         {% else %}
+            <p class="text-center text-muted">Заявок пока нет.</p>
         {% endif %}
     </div>
 </div>
