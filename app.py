@@ -191,5 +191,42 @@ def application():
     # Если метод GET - просто показываем форму
     return render_template('application.html')
 
+@app.route('/admin')
+@login_required
+def admin_panel():
+    if current_user.role != 'admin':
+        flash('Доступ запрещен. У вас нету прав администратора.', 'danger')
+        return redirect(url_for('index'))
+
+    # Проверяем все заявки в дб
+    all_applications = Application.query.order_by(Application.created_at.desc()).all()
+
+    return render_template('admin.html', applications=all_applications)
+
+@app.route('/admin/update_status/<int:app_id>', methods=['POST'])
+@login_required
+def update_status(app_id):
+    # Проверяем права
+    if current_user.role != 'admin':
+        flash('Доступ запрещён', 'danger')
+        return redirect (url_for('index'))
+
+    # Находим заявку по ее ID, который пришёл из URL
+    application = Application.query.get_or_404(app_id)
+
+    # Получаем новый статус из формы 
+    new_status = request.form.get('status')
+
+    # Проверяем, чьл стаьус валидный (защита от хакеров)
+    valid_statuses = ['Новая', 'Идёт обучение', 'Обучение завершено']
+    if new_status in valid_statuses:
+        application.status = new_status
+        db.session.commit()
+        flash(f'Статус заявки #{app_id} изменён на "{new_status}"', 'success')
+    else:
+        flash('Неверный статус', 'danger')
+
+    return redirect(url_for('admin_panel'))
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Админ панель{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-shield-lock"></i>Панель администратора</h2>
+    <a href="{{ url_for('profile') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i>В профиль
+    </a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        {% if applications %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Пользователь</th>
+                            <th>Дата</th>
+                            <th>Оплата</th>
+                            <th>Статус</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in applications %}
+                            <tr>
+                                <td>#{{ app.id }}</td>
+                                <td>{{ app.user.fio }}</td>
+                                <td>{{ app.transport_type }}</td>
+                                <td>{{ app.start_date.strftime('%d.%m.%Y') }}</td>
+                                <td>{{ app.payment_method }}</td>
+                                <td>
+                                    <span class="badge">
+                                    {# Продолжи здесь #}
+                                    </span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        
+        {% else %}
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
