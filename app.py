@@ -39,7 +39,7 @@ with app.app_context():
         db.session.commit()
 
 
-### Здесь я начал писать код для щаблонитизатора
+### Здесь я начал писать код для теста щаблонитизатора
 
 # @app.route('/')
 # def index():
@@ -54,7 +54,8 @@ with app.app_context():
 #     items = ['Яблоко','Хлеб','Яйца','Молоко']
 #     return render_template('shopping.html', items=items)
 
-### Здесь я закончил писать код для щаблонитизатора
+### Здесь я закончил писать код для теста шаблонитизатора
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -123,7 +124,7 @@ def login():
                 return redirect(next_page)
 
             if user.role == 'admin':
-                return redirect(url_for('admin'))
+                return redirect(url_for('admin_panel'))
             return redirect(url_for('profile'))
         else:
             flash('Неверный логин или пароль', 'danger')
@@ -218,7 +219,7 @@ def update_status(app_id):
     new_status = request.form.get('status')
 
     # Проверяем, чьл стаьус валидный (защита от хакеров)
-    valid_statuses = ['Новая', 'Идёт обучение', 'Обучение завершено']
+    valid_statuses = ['Новая', 'Идет обучение', 'Обучение завершено']
     if new_status in valid_statuses:
         application.status = new_status
         db.session.commit()
@@ -227,6 +228,54 @@ def update_status(app_id):
         flash('Неверный статус', 'danger')
 
     return redirect(url_for('admin_panel'))
+
+@app.route('/review/<int:app_id>', methods=['POST'])
+@login_required
+def add_review(app_id):
+    # Находим заявку по ID
+    application = Application.query.get_or_404(app_id)
+
+    # Отладка кода
+    print(f"===ПРОВЕРКА ОТЗЫВА: app_id={app_id}, status='{application.status}' ===")
+    flash(f"Отладка: статус заявки = '{application.status}'", 'info')
+
+    # Провека безопасности: Эта заявка текущего пользователя?
+    if application.user_id != current_user.id:
+        flash('Вы не можете оставить отзыв на чужую заявку(')
+        return redirect(url_for('profile'))
+
+    # Проверка статуса: Обучение точно заверщено?
+    if application.status != 'Обучение завершено':
+        flash('Отзыв модно оставить только после завершения мероприятия.')
+        return redirect(url_for('profile'))
+
+    # Проверка на повтор оставления отзыва
+    existing_review = Review.query.filter_by(application_id=app_id, user_id=current_user.id).first()
+    if existing_review:
+        flash('Вы уже оставили отзыв на эту заявку.')
+        return redirect(url_for('profile'))
+
+    # Получаем данные из формы
+    rating = request.form.get('rating')
+    text = request.form.get('text', '').strip()
+
+    if not rating or not text:
+        flash('Пожалуйста, оставь оценку и напиши отзыв <3')
+        return redirect(url_for('profile'))
+
+    # Создаём и сохраняем отзыв
+    new_review = Review(
+        application_id=app_id,
+        user_id=current_user.id,
+        rating=int(rating),
+        text=text
+    )
+
+    db.session.add(new_review)
+    db.session.commit()
+
+    flash('Спасибо за отзыв!', 'success')
+    return redirect(url_for('profile'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

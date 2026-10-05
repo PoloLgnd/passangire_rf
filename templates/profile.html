@@ -34,7 +34,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h5 class="card-title">
-                                    <i class="bi bi-bus-front"></i> {{app.transport_type  }}
+                                    <i class="bi bi-bus-front"></i> {{ app.transport_type }}
                                 </h5>
                                 <p class="card-text text-muted mb-1">
                                     <i class="bi bi-calendar-event"></i> Дата начала: {{ app.start_date.strftime('%d.%m.%Y') }}
@@ -53,12 +53,18 @@
                                 {% else %}bg-secondary{% endif %} fs-6">
                                 {{ app.status }}
                             </span>
+
+                            {# Кнопка для отзывов #}
+                            {% if app.status == 'Обучение завершено' %}
+                            <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reviewModal{{ app.id }}">
+                                <i class="bi bi-chat-left-text"></i>Оставить отзыв
+                            </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
-            {# пиши дальше тут --> #}
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle"></i>У вас пока нет заявок.
                     <a href="{{ url_for('application') }}" class="alert-link">Создать первую заявку</a>
@@ -67,7 +73,55 @@
         </div>
     </div>
 
-    {% if applications %}
+{% for app in applications %}
+    {% if app.status == 'Обучение завершено' %}
+    <div class="modal fade" id="reviewModal{{ app.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-star-fill"></i>Отзыв на курс "{{ app.transport_type }}"
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {# Форма отправки отзыва #}
+                    <form method="POST" action="{{ url_for('add_review', app_id=app.id) }}">
+                        {# Выбор оценки #}
+                        <div class="mb-3">
+                            <label for="rating{{ app.id }}" class="form-label fw-bold">Ваша оценка</label>
+                            <select name="rating" id="rating{{ app.id }}" class="form-select">
+                                <option value="5">⭐⭐⭐⭐⭐(Отлично)</option>
+                                <option value="5">⭐⭐⭐⭐(Хорошо)</option>
+                                <option value="5">⭐⭐⭐(Нормально)</option>
+                                <option value="5">⭐⭐(Плохо)</option>
+                                <option value="5">⭐(Ужасно)</option>
+                            </select>
+
+                            {# Текст отзыва #}
+                            <div class="mb-3">
+                                <label for="text{{ app.id }}" class="form-label fw-bold">Текст отзыва:</label>
+                                <textarea name="text" 
+                                    id="text{{ app.id }}" 
+                                    rows="4" 
+                                    class="form-control" 
+                                    required 
+                                    placeholder="Расскажите, что вам понравилось или не понравилось"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="bi bi-send"></i>Опубликовать отзыв
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endfor %}
+
+    {# {% if applications %}
         <h3 class="text-center">Другая штука</h3>
         <h3>Ваши заявки:</h3>
         {% for app in application %}
@@ -84,5 +138,5 @@
         {% endfor %}
     {% else %}
         <p>У нас пока нет заявок.</p>
-    {% endif %}
+    {% endif %} #}
 {% endblock %}

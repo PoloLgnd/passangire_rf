@@ -47,7 +47,7 @@
                                     <form method="POST" action="{{ url_for('update_status', app_id=app.id) }}" class="d-flex gap-2">
                                         <select name="status" class="form-select form-select-sm" style="width: auto;">
                                             <option value="Новая" {% if app.status == 'Новая'%}selected{% endif %}>Новая</option>
-                                            <option value="Идет обучение" {% if app.status == 'Идет обучение' %}selected{% endif %}>Идёт обучение</option>
+                                            <option value="Идет обучение" {% if app.status == 'Идет обучение' %}selected{% endif %}>Идет обучение</option>
                                             <option value="Обучение завершено" {% if app.status == 'Обучение завершено' %}selected{% endif %}>Завершено</option>
                                         </select>
 
